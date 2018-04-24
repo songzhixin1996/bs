@@ -1,0 +1,51 @@
+/* eslint-disable */
+import Vue from 'vue'
+import Router from 'vue-router'
+import IMap from '../components/map.vue'
+import Report from '../components/report.vue'
+import Query from '../components/query.vue'
+import Mine from '../components/mine.vue'
+import Login from '../components/login.vue'
+import Register from '../components/register.vue'
+import ForgetPsw from '../components/forgetPsw.vue'
+import store from '../store'
+
+Vue.use(Router)
+
+const router = new Router({
+  mode: 'history',
+  routes: [{
+    path: '/',
+    redirect: '/report'
+  }, {
+    path: '/map',
+    component: IMap
+  }, {
+    path: '/report',
+    component: Report
+  }, {
+    path: '/query',
+    component: Query
+  }, {
+    path: '/mine',
+    component: Mine
+  }, {
+    path: '/login',
+    component: Login,
+    beforeEnter: (to, from, next) => {
+      console.log('before: ' + store.state.showNav)
+      store.commit('noShowNav')
+      store.commit('showBack')
+      console.log(store.state.showNav)
+      next()
+    }
+  }, {
+    path: '/register',
+    component: Register
+  }, {
+    path: '/forgetPsw',
+    component: ForgetPsw
+  }]
+})
+
+export default router

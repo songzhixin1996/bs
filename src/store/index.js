@@ -6,21 +6,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    showNav: true,
-    showBack: false
+    selected: 'map',
+    logined: true
   },
   mutations: {
-    showNav(state) {
-      state.showNav = true;
-    },
-    noShowNav(state) {
-      state.showNav = false;
-    },
-    showBack(state) {
-      state.showBack = true;
-    },
-    noShowBack(state) {
-      state.showBack = false;
+    changeSel(state, payload) {
+      state.selected = payload
     }
   }
 })

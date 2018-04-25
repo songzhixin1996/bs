@@ -15,11 +15,15 @@
 
 <script>
 /* eslint-disable */
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      logined: false
+      // logined: false
     };
+  },
+  computed: {
+    ...mapState(["logined"])
   }
 };
 </script scoped>

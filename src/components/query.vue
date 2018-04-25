@@ -11,7 +11,7 @@ import { MessageBox } from "mint-ui";
 export default {
   methods: {
     query() {
-      alert(this.$store.state.isShowNav);
+      this.$router.back();
     }
   }
 };

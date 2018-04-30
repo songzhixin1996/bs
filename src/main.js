@@ -5,6 +5,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import axios from 'axios'
 import {
   Tabbar,
   TabItem,
@@ -16,6 +17,7 @@ import {
   Cell
 } from 'mint-ui'
 
+Vue.prototype.$axios = axios
 Vue.component('m-tabContainer', TabContainer)
 Vue.component('m-tabContainerItem', TabContainerItem)
 Vue.component('m-tabbar', Tabbar)

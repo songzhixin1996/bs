@@ -9,6 +9,7 @@ import Login from '../components/login.vue'
 import Register from '../components/register.vue'
 import ForgetPsw from '../components/forgetPsw.vue'
 import Wrapper from '../components/wrapper.vue'
+import Set from '../components/set.vue'
 import store from '../store'
 
 Vue.use(Router)
@@ -33,6 +34,9 @@ const router = new Router({
     }, {
       path: 'mine',
       component: Mine
+    }, {
+      path: 'set',
+      component: Set
     }]
   }, {
     path: '/login',
@@ -53,6 +57,10 @@ router.afterEach((to, from) => {
     store.commit('changeSel', s)
   }
 })
+
+// router.beforeEach((to, from, next) => {
+
+// })
 
 // const router = new Router({
 //   mode: 'history',

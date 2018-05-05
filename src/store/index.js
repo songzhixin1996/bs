@@ -7,11 +7,17 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     selected: 'map',
-    logined: true
+    logined: false
   },
   mutations: {
     changeSel(state, payload) {
       state.selected = payload
+    },
+    login(state) {
+      state.logined = true
+    },
+    logoff(state) {
+      state.logined = false
     }
   }
 })

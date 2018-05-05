@@ -1,11 +1,19 @@
 <template>
   <div>
     <div v-if="logined">
-      <m-cell title="姓名" is-link></m-cell>
+      <!-- <m-cell title="姓名" is-link :value='name'></m-cell> -->
+      <div class="user-head">  
+        <div class="user-img" @click="goMyInfo"> 
+          <img src="../assets/bg2.png" width="80" height="80"> 
+        </div>  
+        <div class="user-name" @click="goMyInfo">  
+          {{name}}
+        </div>  
+      </div>  
       <m-cell title="我的报案记录" is-link></m-cell>
-      <m-cell title="个性签名" label="我的签名我的签名我的签名我的签名我的签名我的签名我的签名我的签名我的签名我的签名我的签名我的签名" ></m-cell>
+      <m-cell title="个性签名" :label='motto'  ></m-cell>
       <m-cell title="设置" is-link></m-cell>
-      <m-button class="m-button" type='danger'>退出登陆</m-button>
+      <m-button class="m-button" type='danger' @click="handleLogout">退出登陆</m-button>
     </div>
     <div v-else>
       <m-cell icon='more' title="登陆/注册" is-link to='./login'></m-cell>
@@ -16,14 +24,53 @@
 <script>
 /* eslint-disable */
 import { mapState } from "vuex";
+import { Toast } from "mint-ui";
 export default {
   data() {
     return {
       // logined: false
+      name: "",
+      motto: ""
     };
   },
   computed: {
     ...mapState(["logined"])
+  },
+  methods: {
+    goMyInfo() {
+      this.$router.push("/set");
+    },
+    handleLogout() {
+      this.$axios.get("/api/user/logoff").then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          Toast({ message: "注销成功" });
+          let NewPage = "_empty" + "?time=" + new Date().getTime() / 1000;
+          // 之后将页面push进去
+          this.$router.push(NewPage);
+          // 再次返回上一页即可
+          this.$router.go(-1);
+        }
+      });
+    },
+
+    getUserInfo() {
+      this.$axios.get("/api/user/userInfo").then(res => {
+        console.log(res.data);
+        if (res.data.username) {
+          //已登陆
+          this.$store.commit("login");
+          this.name = res.data.name;
+          this.motto = res.data.motto;
+        } else {
+          //未登录
+          this.$store.commit("logoff");
+        }
+      });
+    }
+  },
+  created() {
+    this.getUserInfo();
   }
 };
 </script scoped>
@@ -33,6 +80,21 @@ export default {
 .m-button {
   left: 50%;
   transform: translateX(-50%);
+}
+
+.user-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-img {
+  background-color: #fff;
+}
+
+.user-img img {
+  border-radius: 50%;
 }
 </style>
 

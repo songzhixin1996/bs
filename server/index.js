@@ -4,11 +4,25 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+
+app.use(cookieParser())
+app.use(session({
+  secret: '123456',
+  name: 'userInfo',
+  cookie: {
+    maxAge: 60000 * 60 * 24 * 30
+  },
+  resave: false,
+  saveUninitialized: false
+}))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+
 
 // 后端api路由
 app.use('/api/user', userApi);

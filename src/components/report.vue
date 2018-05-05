@@ -40,6 +40,10 @@ export default {
     }
   },
   methods: {
+    clear() {
+      this.accidentDate = this.accidentPlace = this.aName = this.aPhone = this.bName = this.bPhone = this.description =
+        "";
+    },
     handleClick() {
       if (this.ready) {
         MessageBox({
@@ -65,6 +69,7 @@ export default {
                   Toast({
                     message: "操作成功"
                   });
+                  this.clear();
                 } else {
                   // MessageBox.alert("操作失败");
                   Toast({

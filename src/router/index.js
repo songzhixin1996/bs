@@ -10,6 +10,8 @@ import Register from '../components/register.vue'
 import ForgetPsw from '../components/forgetPsw.vue'
 import Wrapper from '../components/wrapper.vue'
 import Set from '../components/set.vue'
+import MyReports from '../components/myReports.vue'
+import ReportDetail from '../components/reportDetail.vue'
 import store from '../store'
 
 Vue.use(Router)
@@ -34,9 +36,6 @@ const router = new Router({
     }, {
       path: 'mine',
       component: Mine
-    }, {
-      path: 'set',
-      component: Set
     }]
   }, {
     path: '/login',
@@ -47,6 +46,15 @@ const router = new Router({
   }, {
     path: '/findPsw',
     component: ForgetPsw
+  }, {
+    path: '/:uid/set',
+    component: Set
+  }, {
+    path: '/:uid/myReports',
+    component: MyReports
+  }, {
+    path: '/:uid/reportDetail',
+    component: ReportDetail
   }]
 })
 

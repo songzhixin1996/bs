@@ -1,7 +1,6 @@
 <template>
   <div>
     <div v-if="logined">
-      <!-- <m-cell title="姓名" is-link :value='name'></m-cell> -->
       <div class="user-head">  
         <div class="user-img" @click="goMyInfo"> 
           <img src="../assets/bg2.png" width="80" height="80"> 
@@ -10,13 +9,13 @@
           {{name}}
         </div>  
       </div>  
-      <m-cell title="我的报案记录" is-link></m-cell>
+      <m-cell title="我的报案记录" is-link :to="'/'+username+'/myReports'"></m-cell>
       <m-cell title="个性签名" :label='motto'  ></m-cell>
-      <m-cell title="设置" is-link></m-cell>
+      <m-cell title="设置" is-link :to="'/'+username+'/set'"></m-cell>
       <m-button class="m-button" type='danger' @click="handleLogout">退出登陆</m-button>
     </div>
     <div v-else>
-      <m-cell icon='more' title="登陆/注册" is-link to='./login'></m-cell>
+      <m-cell icon='more' title="登陆/注册" is-link to='/login'></m-cell>
     </div>
   </div>
 </template>
@@ -29,21 +28,22 @@ export default {
   data() {
     return {
       // logined: false
-      name: "",
-      motto: ""
+      // name: "",
+      // motto: ""
     };
   },
   computed: {
-    ...mapState(["logined"])
+    ...mapState(["logined", "username", "age", "motto", "name"])
   },
   methods: {
     goMyInfo() {
-      this.$router.push("/set");
+      this.$router.push(`/${this.username}/set`);
     },
     handleLogout() {
       this.$axios.get("/api/user/logoff").then(res => {
         console.log(res);
         if (res.status === 200) {
+          this.$store.commit("setUsername", "");
           Toast({ message: "注销成功" });
           let NewPage = "_empty" + "?time=" + new Date().getTime() / 1000;
           // 之后将页面push进去
@@ -55,21 +55,26 @@ export default {
     },
 
     getUserInfo() {
-      this.$axios.get("/api/user/userInfo").then(res => {
-        console.log(res.data);
-        if (res.data.username) {
-          //已登陆
-          this.$store.commit("login");
-          this.name = res.data.name;
-          this.motto = res.data.motto;
-        } else {
-          //未登录
-          this.$store.commit("logoff");
-        }
-      });
+      this.$axios
+        .get("/api/user/userInfo?_date=" + new Date().getTime())
+        .then(res => {
+          console.log(res.data);
+          if (res.data.username) {
+            //已登陆
+            this.$store.commit("login");
+            this.$store.commit("setName", res.data.name);
+            this.$store.commit("setUsername", res.data.username);
+            this.$store.commit("setAge", res.data.age);
+            this.$store.commit("setMotto", res.data.motto);
+            this.$store.commit("setEmail", res.data.email);
+          } else {
+            //未登录
+            this.$store.commit("logoff");
+          }
+        });
     }
   },
-  created() {
+  mounted() {
     this.getUserInfo();
   }
 };

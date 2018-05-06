@@ -33,10 +33,13 @@ export default {
     };
   },
   computed: {
-    ready: function() {
+    ready() {
       return (
         this.accidentDate && this.accidentPlace && this.aName && this.aPhone
       );
+    },
+    username() {
+      return this.$store.state.username;
     }
   },
   methods: {
@@ -60,7 +63,8 @@ export default {
                 aPhone: this.aPhone,
                 bName: this.bName,
                 bPhone: this.bPhone,
-                description: this.description
+                description: this.description,
+                username: this.username
               })
               .then(a => {
                 console.log("success:!!  " + a.data.affectedRows);

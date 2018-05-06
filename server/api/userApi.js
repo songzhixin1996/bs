@@ -73,7 +73,7 @@ router.post('/addReport', (req, res) => {
   sql = $sql.report.add;
   params = req.body;
   console.log('qqqqparams: ' + JSON.stringify(params));
-  conn.query(sql, [params.accidentDate, params.accidentPlace, params.aName, params.aPhone, params.bName, params.bPhone, params.description, params.userId, number], (err, result) => {
+  conn.query(sql, [params.accidentDate, params.accidentPlace, params.aName, params.aPhone, params.bName, params.bPhone, params.description, params.username, number], (err, result) => {
     if (err) {
       console.log("error!!! " + JSON.stringify(err));
       res.send(err)
@@ -117,7 +117,7 @@ router.post('/checkLogin', (req, res) => {
       res.send(err)
     }
     if (result) {
-      //存在这个username, 并且密码正确
+      //用户名密码正确
       if (result[0]) {
         //将用户信息保存在session，客户端cookie里有一个sessionId
         req.session.user = result[0]
@@ -133,15 +133,67 @@ router.post('/checkLogin', (req, res) => {
   })
 })
 
-//获取用户信息
+//获取用户信息            
 router.get('/userInfo', (req, res) => {
   if (req.session.user) {
-    res.send(req.session.user)
+    // res.send(req.session.user)
+    let sql = $sql.user.getUserInfo
+    let params = req.session.user.username
+    conn.query(sql, params, ((err, result) => {
+      if (err) {
+        res.send(err)
+      }
+      if (result) {
+        console.log('123 ' + JSON.stringify(result))
+        if (result[0]) {
+          req.session.user = result[0]
+          res.send(result[0])
+        }
+      }
+    }))
   } else {
     res.json({
       code: 0
     })
   }
+})
+
+//获取用户报案记录
+router.get('/getMyReports', (req, res) => {
+  let sql = $sql.report.getMyReports
+  let params = req.query.username
+  conn.query(sql, params, (err, result) => {
+    if (err) {
+      res.send(err)
+    }
+    if (result) {
+      res.send(result)
+    }
+  })
+})
+
+//更新用户信息
+router.post('/updateUser', (req, res) => {
+  let sql = $sql.user.updateUser
+  let body = req.body
+  let params = [body.name, body.age, body.motto, body.email, body.username]
+  conn.query(sql, params, (err, result) => {
+    if (err) {
+      res.send(err)
+    }
+    if (result) {
+      if (result.affectedRows === 1) {
+        //这里要修改session 
+        res.send({
+          code: 1
+        })
+      } else {
+        res.send({
+          code: 0
+        })
+      }
+    }
+  })
 })
 
 //登出

@@ -39,7 +39,7 @@ export default {
             console.log(a);
             if (a.data.code === 1) {
               Toast({ message: "登陆成功" });
-              this.$store.commit("login");
+              // this.$store.commit("login");
               this.$router.push("/user/mine");
             } else if (a.data.code === 0) {
               Toast({ message: "用户名或密码不正确" });

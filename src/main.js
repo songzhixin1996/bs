@@ -14,7 +14,8 @@ import {
   Field,
   Button,
   Header,
-  Cell
+  Cell,
+  Loadmore
 } from 'mint-ui'
 
 Vue.prototype.$axios = axios
@@ -26,6 +27,7 @@ Vue.component('m-field', Field)
 Vue.component('m-button', Button)
 Vue.component('m-header', Header);
 Vue.component('m-cell', Cell);
+Vue.component('m-loadmore', Loadmore);
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

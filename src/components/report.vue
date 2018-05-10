@@ -102,5 +102,6 @@ export default {
 } */
 .m-button {
   text-align: center;
+  height: 80px;
 }
 </style>

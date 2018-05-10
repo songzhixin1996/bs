@@ -1,6 +1,6 @@
 <template>
   <div>
-    <m-header title="交通事故处理查询系统" fixed>
+    <m-header title="交通事故处理查询系统" >
       <router-link to="/" slot="left">
         <m-button icon="back">返回</m-button>
       </router-link>

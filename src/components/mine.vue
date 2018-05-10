@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="mine">
     <div v-if="logined">
       <div class="user-head">  
         <div class="user-img" @click="goMyInfo"> 
@@ -26,11 +26,7 @@ import { mapState } from "vuex";
 import { Toast } from "mint-ui";
 export default {
   data() {
-    return {
-      // logined: false
-      // name: "",
-      // motto: ""
-    };
+    return {};
   },
   computed: {
     ...mapState(["logined", "username", "age", "motto", "name"])

@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="query">
   <m-field label='事故编号'  placeholder="请输入事故编号" v-model="number"></m-field>
   <m-button class="m-button" type='primary' @click="query">确定</m-button>
   <h5>事故信息</h5>

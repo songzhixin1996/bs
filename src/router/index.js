@@ -60,7 +60,6 @@ const router = new Router({
 
 router.afterEach((to, from) => {
   var s = to.path.split('/')[2]
-  console.log(s)
   if (s) {
     store.commit('changeSel', s)
   }

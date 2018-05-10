@@ -1,14 +1,22 @@
 <template>
-  <div>
-    <m-header fixed title="交通事故处理查询系统">
+  <div id="wrapper" :style="{padding:showHeader?'40px 0 26px':'0 0 26px'}" >
+    <m-header v-show="showHeader" title="交通事故处理查询系统" fixed  >
       <m-button icon="more" slot="right"></m-button>
     </m-header>
     <router-view></router-view>
-    <m-tabbar  v-model="getSelected" fixed >
-      <m-tabItem id="map">地图</m-tabItem>
-      <m-tabItem id="report">报案</m-tabItem>
-      <m-tabItem id="query">查询</m-tabItem>
-      <m-tabItem id="mine">我的</m-tabItem>
+    <m-tabbar  v-model="getSelected"  fixed >
+      <m-tabItem id="map">地图   
+      </m-tabItem>
+      <m-tabItem id="report">报案   </m-tabItem>
+      <m-tabItem id="query">查询
+
+
+
+      </m-tabItem>
+      <m-tabItem id="mine">我的
+
+
+      </m-tabItem>
     </m-tabbar>
   </div>
 </template>
@@ -18,7 +26,8 @@ import { mapState } from "vuex";
 export default {
   data: () => {
     return {
-      // selected: this.$store.state.selected
+      clientHeight: document.body.clientHeight,
+      showHeader: true
     };
   },
   computed: {
@@ -33,13 +42,29 @@ export default {
   },
   watch: {
     getSelected(val, oldVal) {
+      console.log("val: " + val);
       this.$router.push(val);
+      if (val === "map") {
+        this.showHeader = false;
+      } else {
+        this.showHeader = true;
+      }
     }
   },
-
-  created() {
-    // console.log(selected);
+  mounted() {
+    window.onresize = () => {
+      this.clientHeight = document.body.clientHeight;
+    };
   }
 };
 </script>
+<style scoped>
+#wrapper {
+  height: 100%;
+  /* padding: 40px 0 20px; */
+  box-sizing: border-box;
+  overflow: auto;
+}
+</style>
+
 

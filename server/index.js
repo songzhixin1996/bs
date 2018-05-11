@@ -7,7 +7,7 @@ const app = express();
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 
-app.use(express.static(path.join(__dirname, '..', 'dist')))
+app.use(express.static(path.resolve(__dirname, '../dist')))
 app.use(cookieParser())
 app.use(session({
   secret: '123456',

@@ -6,7 +6,11 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const history = require('connect-history-api-fallback');
 
+app.use(history({
+  // index: '/dist/index.html'
+}))
 app.use(express.static(path.resolve(__dirname, '../dist')))
 app.use(cookieParser())
 app.use(session({

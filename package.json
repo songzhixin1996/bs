@@ -9,11 +9,12 @@
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "app": "node server/index.js"
+    "app": "pm2 start server/index.js --watch"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
+    "connect-history-api-fallback": "^1.5.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
     "express-session": "^1.15.6",

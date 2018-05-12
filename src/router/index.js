@@ -12,6 +12,7 @@ import Wrapper from '../components/wrapper.vue'
 import Set from '../components/set.vue'
 import MyReports from '../components/myReports.vue'
 import ReportDetail from '../components/reportDetail.vue'
+import err404 from '../components/404.vue'
 import store from '../store'
 
 Vue.use(Router)
@@ -23,6 +24,7 @@ const router = new Router({
     redirect: '/user/report'
   }, {
     path: '/user',
+    redirect: '/user/report',
     component: Wrapper,
     children: [{
       path: 'map',
@@ -55,6 +57,9 @@ const router = new Router({
   }, {
     path: '/:uid/reportDetail',
     component: ReportDetail
+  }, {
+    path: '*',
+    component: err404
   }]
 })
 

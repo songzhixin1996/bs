@@ -1,7 +1,7 @@
 <template>
   <div>
     <m-header title="交通事故处理查询系统" >
-      <router-link :to="{name:'login'}" slot="left">
+      <router-link :to="{name:'login'}" slot="left" replace>
         <m-button icon="back" >返回</m-button>
       </router-link>
     </m-header>
@@ -20,13 +20,6 @@ export default {
       count: 60,
       disabled: false
     };
-  },
-  computed: {
-    // count() {
-    //   return setInterval(() => {
-    //     this.count--;
-    //   }, 1000);
-    // }
   },
   methods: {
     startCount() {

@@ -25,11 +25,11 @@ var jsonWrite = function (res, ret) {
   }
 };
 
-//是否存在用户名
-router.get('/isExistUsername', (req, res) => {
-  let sql = $sql.user.isExistUsername
-  let username = req.query.username
-  conn.query(sql, username, (err, result) => {
+//用户名能否注册
+router.get('/validUsername', (req, res) => {
+  let sql = $sql.user.isExistUsername,
+    params = req.query.username
+  conn.query(sql, params, (err, result) => {
     if (err) {
       console.log(err);
       res.send(err)
@@ -37,11 +37,34 @@ router.get('/isExistUsername', (req, res) => {
     if (result) {
       if (result[0]) {
         res.send({
-          code: 1
+          code: 0
         })
       } else {
         res.send({
+          code: 1
+        })
+      }
+    }
+  })
+})
+
+//邮箱能否注册
+router.get('/validEmail', (req, res) => {
+  let sql = $sql.user.isExistEmail,
+    params = req.query.email;
+  conn.query(sql, params, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send(err)
+    }
+    if (result) {
+      if (result[0]) {
+        res.send({
           code: 0
+        })
+      } else {
+        res.send({
+          code: 1
         })
       }
     }
@@ -51,19 +74,21 @@ router.get('/isExistUsername', (req, res) => {
 
 // 增加用户接口
 router.post('/addUser', (req, res) => {
-  var sql = $sql.user.add;
-  var params = req.body;
+  let sql = $sql.user.add;
+  let params = req.body;
   let motto = '这个人很懒，什么都没有留下'
-  console.log('params: ' + JSON.stringify(params));
-  conn.query(sql, [params.username, params.username, params.password, motto], function (err, result) {
+  conn.query(sql, [params.username, params.username, params.email, params.password, motto], function (err, result) {
     if (err) {
-      console.log("1111111111111111111111111" + err);
       res.send(err)
     }
-    if (result.affectedRows) {
-      res.send({
-        code: 1
-      })
+    if (result) {
+      if (result.affectedRows) {
+        res.send({
+          code: 1
+        })
+      } else {
+        res.send(result)
+      }
     }
   })
 });
@@ -71,11 +96,10 @@ router.post('/addUser', (req, res) => {
 
 //上传事故
 router.post('/addReport', (req, res) => {
-  var number = utils.getNumber();
-  console.log('NUMBER!!!! ' + utils.getNumber())
+  let number = utils.getNumber();
+  // console.log('NUMBER!!!! ' + utils.getNumber())
   sql = $sql.report.add;
   params = req.body;
-  console.log('qqqqparams: ' + JSON.stringify(params));
   conn.query(sql, [params.accidentDate, params.accidentPlace, params.aName, params.aPhone, params.bName, params.bPhone, params.description, params.username, number], (err, result) => {
     if (err) {
       console.log("error!!! " + JSON.stringify(err));
@@ -83,7 +107,6 @@ router.post('/addReport', (req, res) => {
     }
     if (result) {
       jsonWrite(res, result);
-      console.log("success!!! " + JSON.stringify(result));
     }
   })
 
@@ -97,13 +120,10 @@ router.get('/query', (req, res) => {
   if (req.query.number) {
     conn.query(sql, num, (err, result) => {
       if (err) {
-        console.log("error!!! " + JSON.stringify(err));
         res.send(err)
       }
       if (result) {
         res.json(result)
-        // jsonWrite(res, result);
-        console.log("success!!! " + JSON.stringify(result));
       }
     })
   }
@@ -112,14 +132,15 @@ router.get('/query', (req, res) => {
 
 //登陆验证
 router.post('/checkLogin', (req, res) => {
-  let user = req.body.username
+  let usernameOrEmail = req.body.username
   let psw = req.body.password
   let sql = $sql.user.getUser
-  conn.query(sql, [user, psw], (err, result) => {
+  conn.query(sql, [usernameOrEmail, psw, usernameOrEmail, psw], (err, result) => {
     if (err) {
       res.send(err)
     }
     if (result) {
+      console.log(result)
       //用户名密码正确
       if (result[0]) {
         //将用户信息保存在session，客户端cookie里有一个sessionId
@@ -185,7 +206,6 @@ router.post('/updateUser', (req, res) => {
       res.send(err)
     }
     if (result) {
-      console.log(result)
       if (result.affectedRows === 1) {
         //这里要修改session 
         res.send({
@@ -303,10 +323,10 @@ router.get('/checkTokonValid', (req, res) => {
 
 })
 
-//重置密码后删除tokon
+//重置密码后删除tokon和expiredTime
 router.get('/clearTokon', (req, res) => {
   let sql = $sql.user.clearTokon,
-    params = ['', req.query.tokon];
+    params = [req.query.tokon];
   conn.query(sql, params, (err, result) => {
     if (err) {
       res.send(err)

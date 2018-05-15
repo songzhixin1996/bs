@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const history = require('connect-history-api-fallback');
 
-// app.use(history())
+app.use(history())
 app.use(express.static(path.resolve(__dirname, '../dist')))
 app.use(cookieParser())
 app.use(session({

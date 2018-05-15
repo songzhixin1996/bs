@@ -72,7 +72,4 @@ export default {
 .loadmore {
   height: 100%;
 }
-.header {
-  /* margin-bottom: 40px; */
-}
 </style>

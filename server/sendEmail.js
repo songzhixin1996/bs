@@ -12,7 +12,7 @@ module.exports = function (email, tokon) {
     to: '',
     // 邮件内容，HTML格式
     text: `点击链接重置密码！30分钟有效！
-          http://localhost:3000/reset/${tokon}`
+          http://149.28.17.195:3000/reset/${tokon}`
     //接收激活请求的链接
   };
   return new Promise((resolve, reject) => {

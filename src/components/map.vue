@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <div id="mapContainer" :style="{height:clientHeight-26+'px'}"></div>
-    
-  </div>
+  <div id="mapContainer" ></div>
 </template>
 
 <script>
@@ -43,6 +40,8 @@ export default {
 </script>
 
 <style scoped>
-
+#mapContainer {
+  height: 100%;
+}
 </style>
 

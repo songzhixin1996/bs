@@ -1,20 +1,29 @@
 <template>
-  <div> 
-    <m-header title="修改个人信息" fixed>
-      <router-link to="/user/mine" slot="left">
+  <div class="set"> 
+    <m-header title="修改个人信息" fixed class="head">
+      <router-link :to="{name:'mine'}" slot="left">
         <m-button icon="back">返回</m-button>
       </router-link>
     </m-header>
-    <m-cell title="姓名"  :value='temp.name' @click.native="setName"></m-cell>
-    <m-cell title="用户名"  :value="username"></m-cell>
-    <m-cell title="邮箱"  :value="temp.email" @click.native="setEmail"></m-cell>
-    <m-cell title="年龄"  :value="temp.age" @click.native="setAge"></m-cell>
-    <m-cell title="个性签名"  :value="temp.motto" @click.native="setMotto"></m-cell>
-    <m-button type="primary" class="bt" @click="updateUser">保存</m-button>
+    <div class="content">
+      <m-cell title="姓名"  :value='temp.name' @click.native="setName"></m-cell>
+      <m-cell title="用户名"  :value="userInfo.username"></m-cell>
+      <m-cell title="邮箱"  :value="temp.email" @click.native="setEmail"></m-cell>
+      <m-cell title="年龄"  :value="temp.age" @click.native="setAge"></m-cell>
+      <m-cell title="个性签名"  :value="temp.motto" @click.native="setMotto"></m-cell>
+      <m-button type="primary" class="bt" @click="updateUser">保存</m-button>
+    </div>
   </div>
 
 </template>
 <style scoped>
+.set {
+  height: 100%;
+  width: 100%;
+}
+.content {
+  margin-top: 40px;
+}
 .bt {
   display: block;
   margin: 50px auto;
@@ -35,13 +44,13 @@ export default {
     };
   },
   created() {
-    this.temp.name = this.name;
-    this.temp.age = this.age || 0;
-    this.temp.motto = this.motto;
-    this.temp.email = this.email;
+    this.temp.name = this.userInfo.name;
+    this.temp.age = this.userInfo.age || 0;
+    this.temp.motto = this.userInfo.motto;
+    this.temp.email = this.userInfo.email;
   },
   computed: {
-    ...mapState(["name", "username", "age", "motto", "email"])
+    ...mapState(["userInfo"])
   },
   methods: {
     setName() {
@@ -70,7 +79,7 @@ export default {
           console.log(action);
           if (action === "confirm") {
             let params = {
-              username: this.username,
+              username: this.userInfo.username,
               name: this.temp.name,
               age: this.temp.age,
               motto: this.temp.motto,
@@ -82,7 +91,8 @@ export default {
                 console.log(res);
                 if (res.data.code === 1) {
                   Toast({ message: "修改成功！" });
-                  this.$router.push("/user/mine");
+                  this.$store.commit("setUserInfo", params);
+                  this.$router.push({ name: "mine" });
                 } else {
                   Toast({ message: "修改失败，请重试！" });
                 }

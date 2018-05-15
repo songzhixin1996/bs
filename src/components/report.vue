@@ -18,7 +18,7 @@
 
 <script>
 /* eslint-disable */
-import { MessageBox, Toast } from "mint-ui";
+import { MessageBox, Toast, Indicator } from "mint-ui";
 export default {
   name: "report",
   data: () => {
@@ -39,7 +39,7 @@ export default {
       );
     },
     username() {
-      return this.$store.state.username;
+      return this.$store.state.userInfo.username;
     }
   },
   methods: {
@@ -55,6 +55,7 @@ export default {
           showCancelButton: true
         }).then(action => {
           if (action === "confirm") {
+            Indicator.open();
             this.$axios
               .post("/api/user/addReport", {
                 accidentDate: this.accidentDate,
@@ -67,6 +68,7 @@ export default {
                 username: this.username
               })
               .then(a => {
+                Indicator.close();
                 console.log("success:!!  " + a.data.affectedRows);
                 if (a.data.affectedRows) {
                   // MessageBox.alert("操作成功");

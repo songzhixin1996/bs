@@ -6,14 +6,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    selected: 'map',
+    selected: '',
     logined: false,
-    name: '',
-    username: '',
-    age: '',
-    motto: '',
-    email: '',
-    reports: []
+    reports: [],
+    userInfo: {}
   },
   mutations: {
     changeSel(state, payload) {
@@ -25,20 +21,15 @@ export default new Vuex.Store({
     logoff(state) {
       state.logined = false
     },
-    setName(state, payload) {
-      state.name = payload
-    },
-    setUsername(state, payload) {
-      state.username = payload
-    },
-    setAge(state, payload) {
-      state.age = payload
-    },
-    setMotto(state, payload) {
-      state.motto = payload
-    },
-    setEmail(state, payload) {
-      state.email = payload
+    setUserInfo(state, payload) {
+      state.userInfo = {
+        name: payload.name,
+        username: payload.username,
+        age: payload.age,
+        motto: payload.motto,
+        email: payload.email,
+        reports: payload.reports
+      }
     },
     setReports(state, payload) {
       state.reports = payload

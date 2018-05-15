@@ -4,6 +4,9 @@ var router = express.Router();
 var mysql = require('mysql');
 var $sql = require('../sqlMap');
 var utils = require('../../build/utils')
+var send = require('../sendEmail');
+const crypto = require('crypto');
+
 
 
 // 连接数据库
@@ -28,7 +31,7 @@ router.get('/isExistUsername', (req, res) => {
   let username = req.query.username
   conn.query(sql, username, (err, result) => {
     if (err) {
-      console.log("1111111111111111111111111" + err);
+      console.log(err);
       res.send(err)
     }
     if (result) {
@@ -144,7 +147,7 @@ router.get('/userInfo', (req, res) => {
         res.send(err)
       }
       if (result) {
-        console.log('123 ' + JSON.stringify(result))
+        // console.log('123 ' + JSON.stringify(result))
         if (result[0]) {
           req.session.user = result[0]
           res.send(result[0])
@@ -182,6 +185,7 @@ router.post('/updateUser', (req, res) => {
       res.send(err)
     }
     if (result) {
+      console.log(result)
       if (result.affectedRows === 1) {
         //这里要修改session 
         res.send({
@@ -189,9 +193,125 @@ router.post('/updateUser', (req, res) => {
         })
       } else {
         res.send({
-          code: 0
+          code: 0,
+          err: result
         })
       }
+    }
+  })
+})
+
+//重置密码
+router.get('/resetPsw', (req, res) => {
+  let psw = req.query.psw,
+    tokon = req.query.tokon,
+    sql = $sql.user.resetPsw,
+    params = [psw, tokon]
+  conn.query(sql, params, (err, result) => {
+    if (err) {
+      res.send(err)
+    }
+    if (result) {
+      console.log(result)
+      if (result.affectedRows === 1) {
+        res.send({
+          code: 1
+        })
+      } else {
+        res.send({
+          code: 0,
+          err: result
+        })
+      }
+    }
+  })
+})
+
+//发送验证邮箱
+router.get('/sendEmail', (req, res) => {
+  let email = req.query.email;
+  let secretKey = crypto.randomBytes(16).toString('hex');
+  let hmac = crypto.createHmac('sha256', secretKey);
+  let str = email + Math.ceil(Math.random() * 10000) + String(new Date().getTime())
+  hmac.update(str)
+  let tokon = hmac.digest('hex')
+  let expiredTime = new Date().getTime() + 1000 * 60 * 30 //半个小时
+  //设置 tokon 和 expiredTime
+  let sql = $sql.user.setTokonAndExpTime
+  let params = [tokon, expiredTime, email]
+  conn.query(sql, params, (err, result) => {
+    if (err) {
+      res.send(err)
+    }
+    if (result) {
+      // console.log(result)
+      if (result.affectedRows === 1) {
+        //发送邮件
+        send(email, tokon).then(data => {
+          console.log(data)
+          //发送成功
+          res.send({
+            code: 1,
+            msg: data
+          })
+        }).catch(err => {
+          //发送失败
+          res.send({
+            code: 2,
+            msg: err
+          })
+          console.log(err)
+        });
+
+      } else {
+        res.send({
+          //邮箱未注册
+          code: 0,
+          err: result
+        })
+      }
+    }
+  })
+
+})
+
+//检查链接有效性
+router.get('/checkTokonValid', (req, res) => {
+  let params = req.query.tokon,
+    sql = $sql.user.checkTokonValid
+  conn.query(sql, params, (err, result) => {
+    if (err) {
+      res.send(err)
+    }
+    if (result) {
+      let curTime = new Date().getTime()
+      if (result[0] && result[0].expiredTime > curTime) {
+        //tokon有效
+        res.send({
+          code: 1,
+          message: 'valid'
+        })
+      } else {
+        //tokon无效
+        res.send({
+          code: 0,
+          message: 'invalid'
+        })
+      }
+    }
+  })
+
+})
+
+//重置密码后删除tokon
+router.get('/clearTokon', (req, res) => {
+  let sql = $sql.user.clearTokon,
+    params = ['', req.query.tokon];
+  conn.query(sql, params, (err, result) => {
+    if (err) {
+      res.send(err)
+    } else if (result) {
+      res.send(result)
     }
   })
 })

@@ -1,12 +1,13 @@
 <template>
-  <div> 
-    <m-header title="交通事故处理查询系统" >
-      <router-link to="/user/mine" slot="left">
+  <div class="myReports"> 
+    <m-header title="交通事故处理查询系统" class="header">
+      <router-link :to="{name:'mine'}" slot="left">
         <m-button icon="back" >返回</m-button>
       </router-link>
     </m-header> 
-    <m-loadmore :top-method="loadTop" @top-status-change="handleTopChange" ref="loadmore" >    
-      <m-cell v-for="item in reports" :key="item.id" :title="item.number"  is-link :to="'/'+username+'/reportDetail?number='+item.number" ></m-cell>  
+    <m-loadmore :top-method="loadTop" @top-status-change="handleTopChange" ref="loadmore" class="loadmore">    
+      <m-cell v-for="item in reports" :key="item.id" :title="item.number"  is-link :to="'/'+userInfo.username+'/reportDetail?number='+item.number" >
+      </m-cell>  
       <div slot="top" class="mint-loadmore-top">
         <span v-show="topStatus !== 'loading'" :class="{ 'rotate': topStatus === 'drop' }">↓</span>
         <span v-show="topStatus === 'loading'">Loading...</span>
@@ -21,14 +22,11 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      topStatus: "",
-      // ...
-      list: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
-      // reports: []
+      topStatus: ""
     };
   },
   computed: {
-    ...mapState(["username", "reports"])
+    ...mapState(["userInfo", "reports"])
   },
   methods: {
     handleTopChange(status) {
@@ -36,17 +34,15 @@ export default {
     },
     getMyReports() {
       this.$axios
-        .get("/api/user/getMyReports/?username=" + this.username)
+        .get("/api/user/getMyReports/?username=" + this.userInfo.username)
         .then(res => {
-          // console.log(res.data);
           //将reports存入store里
           let allReports = {};
           for (let report of res.data) {
             allReports[report.number] = report;
           }
-          // console.log(allReports);
+          console.log(allReports);
           this.$store.commit("setReports", allReports);
-          // this.reports = res.data;
         })
         .catch(err => {
           console.log(err);
@@ -59,11 +55,24 @@ export default {
     }
     // ...
   },
-  mounted() {
-    this.getMyReports();
+  created() {
+    if (!this.reports[0]) {
+      this.getMyReports();
+    }
   }
 };
 </script>
 <style scoped>
-
+.myReports {
+  height: 100%;
+}
+.content {
+  height: 100%;
+}
+.loadmore {
+  height: 100%;
+}
+.header {
+  /* margin-bottom: 40px; */
+}
 </style>

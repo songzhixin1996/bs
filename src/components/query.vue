@@ -8,7 +8,7 @@
 
 <script>
 /* eslint-disable */
-import { MessageBox, Toast } from "mint-ui";
+import { MessageBox, Toast, Indicator } from "mint-ui";
 export default {
   data: () => {
     return {
@@ -26,9 +26,11 @@ export default {
   methods: {
     query() {
       if (this.ready) {
+        Indicator.open();
         this.$axios
           .get("/api/user/query?number=" + this.number)
           .then(res => {
+            Indicator.close();
             let a = res.data[0];
             if (res.data.length === 0) {
               Toast({ message: "请输入正确编号", duration: 1000 });

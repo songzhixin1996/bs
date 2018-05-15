@@ -1,7 +1,7 @@
 <template>
   <div>
     <m-header title="交通事故处理查询系统" fixed>
-        <router-link :to="'/'+username+'/myReports'" slot="left">
+        <router-link :to="{name:'myReports',params:{uid:userInfo.username}}" slot="left">
           <m-button icon="back" >返回</m-button>
         </router-link>
     </m-header>
@@ -31,7 +31,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["reports", "username"]),
+    ...mapState(["reports", "userInfo"]),
     item() {
       this.reports[this.number].accidentDate = this.reports[
         this.number
@@ -41,9 +41,6 @@ export default {
     number() {
       return this.$route.query.number;
     }
-  },
-  mounted() {
-    console.log(this.reports);
   }
 };
 </script>

@@ -13,6 +13,7 @@ import Set from '../components/set.vue'
 import MyReports from '../components/myReports.vue'
 import ReportDetail from '../components/reportDetail.vue'
 import err404 from '../components/404.vue'
+import Reset from '../components/reset.vue'
 import store from '../store'
 
 Vue.use(Router)
@@ -20,94 +21,78 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   routes: [{
-    path: '/',
-    redirect: '/user/report'
-  }, {
-    path: '/user',
-    redirect: '/user/report',
-    component: Wrapper,
-    children: [{
-      path: 'map',
-      component: IMap
+      name: 'wrapper',
+      path: '/',
+      redirect: '/report',
+      component: Wrapper,
+      children: [{
+        name: 'map',
+        path: 'map',
+        component: IMap
+      }, {
+        name: 'report',
+        path: 'report',
+        component: Report
+      }, {
+        name: 'query',
+        path: 'query',
+        component: Query
+      }, {
+        name: 'mine',
+        path: 'mine',
+        component: Mine
+      }]
+    },
+    {
+      name: 'login',
+      path: '/login',
+      component: Login
+    },
+    {
+      name: 'register',
+      path: '/register',
+      component: Register
+    },
+    {
+      name: 'findPsw',
+      path: '/findPsw',
+      component: ForgetPsw
     }, {
-      path: 'report',
-      component: Report
-    }, {
-      path: 'query',
-      component: Query
-    }, {
-      path: 'mine',
-      component: Mine
-    }]
-  }, {
-    path: '/login',
-    component: Login
-  }, {
-    path: '/register',
-    component: Register
-  }, {
-    path: '/findPsw',
-    component: ForgetPsw
-  }, {
-    path: '/:uid/set',
-    component: Set
-  }, {
-    path: '/:uid/myReports',
-    component: MyReports
-  }, {
-    path: '/:uid/reportDetail',
-    component: ReportDetail
-  }, {
-    path: '*',
-    component: err404
-  }]
+      name: 'set',
+      path: '/:uid/set',
+      component: Set
+    },
+    {
+      name: 'myReports',
+      path: '/:uid/myReports',
+      component: MyReports
+    },
+    {
+      name: 'reportsDetail',
+      path: '/:uid/reportDetail',
+      component: ReportDetail
+    },
+    {
+      name: 'resetPsw',
+      path: '/reset/:tokon',
+      component: Reset
+    },
+    {
+      name: '404',
+      path: '*',
+      component: err404
+    }
+  ]
 })
 
-router.afterEach((to, from) => {
-  var s = to.path.split('/')[2]
-  if (s) {
-    store.commit('changeSel', s)
+
+router.beforeEach((to, from, next) => {
+  var sel = to.path.split('/')[1]
+  if (sel) {
+    store.commit('changeSel', sel)
   }
+  next()
 })
 
-// router.beforeEach((to, from, next) => {
-
-// })
-
-// const router = new Router({
-//   mode: 'history',
-//   routes: [{
-//     path: '/',
-//     redirect: '/report'
-//   }, {
-//     path: '/map',
-//     component: IMap
-//   }, {
-//     path: '/report',
-//     component: Report
-//   }, {
-//     path: '/query',
-//     component: Query
-//   }, {
-//     path: '/mine',
-//     component: Mine
-//   }, {
-//     path: '/login',
-//     component: Login,
-//     beforeEnter: (to, from, next) => {
-//       console.log('before: ' + store.state.showNav)
-//       store.commit('noShowNav')
-//       store.commit('showBack')
-//       console.log(store.state.showNav)
-//       next()
-//     }
-//   }, {
-//     path: '/register',
-//     component: Register
-//   }, {
-//     path: '/forgetPsw',
-//     component: ForgetPsw
-//   }]
-// })
 
 export default router

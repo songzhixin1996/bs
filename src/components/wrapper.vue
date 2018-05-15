@@ -4,30 +4,18 @@
       <m-button icon="more" slot="right"></m-button>
     </m-header>
     <router-view></router-view>
-    <m-tabbar  v-model="getSelected"  fixed >
-      <m-tabItem id="map">地图   
-      </m-tabItem>
-      <m-tabItem id="report">报案   </m-tabItem>
-      <m-tabItem id="query">查询
-
-
-
-      </m-tabItem>
-      <m-tabItem id="mine">我的
-
-
-      </m-tabItem>
-    </m-tabbar>
+    <tab :selected='getSelected' @changeSel=changeSel></tab>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import Tab from "./tab";
 export default {
   data: () => {
     return {
       clientHeight: document.body.clientHeight,
-      showHeader: true
+      showHeader: this.getSelected === "map" ? false : true
     };
   },
   computed: {
@@ -40,10 +28,17 @@ export default {
       }
     }
   },
+  components: {
+    Tab
+  },
+  methods: {
+    changeSel(val) {
+      this.getSelected = val;
+    }
+  },
   watch: {
     getSelected(val, oldVal) {
-      console.log("val: " + val);
-      this.$router.push(val);
+      this.$router.replace({ name: val });
       if (val === "map") {
         this.showHeader = false;
       } else {
@@ -61,9 +56,8 @@ export default {
 <style scoped>
 #wrapper {
   height: 100%;
-  /* padding: 40px 0 20px; */
   box-sizing: border-box;
-  overflow: auto;
+  /* overflow: auto; */
 }
 </style>
 

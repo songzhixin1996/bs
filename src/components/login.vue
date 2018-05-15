@@ -1,7 +1,7 @@
 <template>
   <div>
     <m-header title="交通事故处理查询系统" >
-      <router-link to="/user/mine" slot="left">
+      <router-link to="mine" slot="left">
         <m-button icon="back" >返回</m-button>
       </router-link>
     </m-header>
@@ -18,7 +18,7 @@
 
 <script>
 /* eslint-disable */
-import { MessageBox, Toast } from "mint-ui";
+import { MessageBox, Toast, Indicator } from "mint-ui";
 export default {
   data: function() {
     return {
@@ -30,17 +30,21 @@ export default {
     handleLogin() {
       //输入不为空
       if (this.username && this.password) {
+        Indicator.open({
+          text: "加载中...",
+          spinnerType: "fading-circle"
+        });
         this.$axios
           .post("/api/user/checkLogin", {
             username: this.username,
             password: this.password
           })
           .then(a => {
-            console.log(a);
+            Indicator.close();
             if (a.data.code === 1) {
               Toast({ message: "登陆成功" });
-              // this.$store.commit("login");
-              this.$router.push("/user/mine");
+              this.$store.commit("login");
+              this.$router.replace("mine");
             } else if (a.data.code === 0) {
               Toast({ message: "用户名或密码不正确" });
             }

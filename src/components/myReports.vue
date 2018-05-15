@@ -1,6 +1,6 @@
 <template>
   <div class="myReports"> 
-    <m-header title="交通事故处理查询系统" class="header">
+    <m-header title="我的报案记录" class="header">
       <router-link :to="{name:'mine'}" slot="left">
         <m-button icon="back" >返回</m-button>
       </router-link>

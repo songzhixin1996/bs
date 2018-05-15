@@ -6,7 +6,7 @@
       </router-link>
     </m-header>
     <m-field label="邮箱" placeholder="请输入邮箱" v-model="email"></m-field>
-    <m-button size='large' type='primary' @click="sendEmail">发送验证</m-button>
+    <m-button size='large' type='primary' @click="sendEmail" :disabled='disabled'>{{msg}}</m-button>
   </div>
 </template>
 
@@ -15,10 +15,30 @@ import { Toast, Indicator } from "mint-ui";
 export default {
   data() {
     return {
-      email: ""
+      email: "",
+      msg: "发送",
+      count: 60,
+      disabled: false
     };
   },
+  computed: {
+    // count() {
+    //   return setInterval(() => {
+    //     this.count--;
+    //   }, 1000);
+    // }
+  },
   methods: {
+    startCount() {
+      let a = setInterval(() => {
+        this.msg--;
+        if (this.msg === 0) {
+          clearInterval(a);
+          this.msg = "重新发送";
+          this.disabled = false;
+        }
+      }, 1000);
+    },
     sendEmail() {
       if (this.email) {
         Indicator.open();
@@ -26,6 +46,11 @@ export default {
           Indicator.close();
           if (res.data.code === 1) {
             this.email = "";
+            //禁用发送按钮设置为60秒后才能点击
+            this.msg = this.count;
+            this.startCount();
+            this.disabled = true;
+            // this.startCount();
             Toast({ message: "发送成功，请查看邮箱！" });
           } else if (res.data.code === 0) {
             Toast({ message: "邮箱未注册！" });

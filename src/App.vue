@@ -7,6 +7,7 @@
 <script>
 /* eslint-disable */
 import { mapState } from "vuex";
+import { Indicator } from "mint-ui";
 import wrapper from "./components/wrapper";
 export default {
   name: "App",

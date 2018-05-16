@@ -5,13 +5,15 @@
         <m-button icon="back" >返回</m-button>
       </router-link>
     </m-header>
-    <m-field label="用户名" type='email' placeholder="请输入用户名或邮箱" v-model="username"></m-field>
-    <m-field label="密码" placeholder="密码" type="password" v-model="password"></m-field>
-    <m-button size='large' type='primary' @click="handleLogin">登陆</m-button>
-    <div class="d1">
-      <router-link to="./register" ><span class="s1">注册</span></router-link>
-      <span>&nbsp; &nbsp; |&nbsp; &nbsp; </span>
-      <router-link to="./findPsw"><span class="s2">忘记密码</span></router-link>
+    <div class="content">
+      <m-field label="用户名" type='email' placeholder="请输入用户名或邮箱" v-model="username"></m-field>
+      <m-field label="密码" placeholder="密码" type="password" v-model="password"></m-field>
+      <m-button size='large' type='primary' @click="handleLogin">登陆</m-button>
+      <div class="d1">
+        <router-link to="./register" ><span class="s1">注册</span></router-link>
+        <span>&nbsp; &nbsp; |&nbsp; &nbsp; </span>
+        <router-link to="./findPsw"><span class="s2">忘记密码</span></router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -61,6 +63,9 @@ export default {
 </script>
 
 <style scoped>
+.content {
+  margin-top: 5px;
+}
 .d1 {
   margin-top: 15px;
   text-align: center;

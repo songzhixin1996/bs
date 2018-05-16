@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     selected: '',
     logined: false,
-    reports: [],
+    reports: {},
     userInfo: {}
   },
   mutations: {
@@ -27,8 +27,7 @@ export default new Vuex.Store({
         username: payload.username,
         age: payload.age,
         motto: payload.motto,
-        email: payload.email,
-        reports: payload.reports
+        email: payload.email
       }
     },
     setReports(state, payload) {

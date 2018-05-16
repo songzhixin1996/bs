@@ -5,8 +5,10 @@
         <m-button icon="back" >返回</m-button>
       </router-link>
     </m-header>
-    <m-field label="邮箱" placeholder="请输入邮箱" v-model="email"></m-field>
-    <m-button size='large' type='primary' @click="sendEmail" :disabled='disabled'>{{msg}}</m-button>
+    <div class="content">
+      <m-field label="邮箱" placeholder="请输入邮箱" v-model="email"></m-field>
+      <m-button size='large' type='primary' @click="sendEmail" :disabled='disabled'>{{msg}}</m-button>
+    </div>
   </div>
 </template>
 
@@ -60,5 +62,7 @@ export default {
 </script>
 
 <style scoped>
-
+.content {
+  margin-top: 5px;
+}
 </style>

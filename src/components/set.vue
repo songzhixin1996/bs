@@ -22,7 +22,9 @@
   width: 100%;
 }
 .content {
-  margin-top: 40px;
+  height: 100%;
+  box-sizing: border-box;
+  padding-top: 40px;
 }
 .bt {
   display: block;

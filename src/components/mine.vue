@@ -1,6 +1,6 @@
 <template>
-  <div id="mine">
-    <div v-if="logined">
+  <div class="mine">
+    <div v-if="logined" class="centent">
       <div class="user-head">  
         <router-link class="user-img" :to="{name:'set',params:{uid:userInfo.username}}"> 
           <img src="../assets/bg2.png" width="80" height="80"> 
@@ -14,8 +14,9 @@
       <m-cell title="设置" is-link :to="'/'+userInfo.username+'/set'"></m-cell>
       <m-button class="m-button" type='danger' @click="handleLogout">退出登陆</m-button>
     </div>
-    <div v-else>
-      <m-cell icon='more' title="登陆/注册" is-link :to="{name:'login'}" ></m-cell>
+    <div v-else class="content">
+      <!-- <m-cell  title="登陆/注册" is-link :to="{name:'login'}" ></m-cell> -->
+      <m-button plain type='primary' @click="handleLogin">登陆/注册</m-button>
     </div>
   </div>
 </template>
@@ -37,6 +38,9 @@ export default {
     goMyInfo() {
       this.$router.push(`/${this.username}/set`);
     },
+    handleLogin() {
+      this.$router.push({ name: "login" });
+    },
     handleLogout() {
       Indicator.open({
         spinnerType: "fading-circle"
@@ -45,11 +49,15 @@ export default {
         console.log(res);
         Indicator.close();
         if (res.status === 200) {
-          this.$store.commit("setUserInfo", "");
-          this.$store.commit("logoff");
+          this.clearInfo();
           Toast({ message: "注销成功" });
         }
       });
+    },
+    clearInfo() {
+      this.$store.commit("setUserInfo", "");
+      this.$store.commit("setReports", {});
+      this.$store.commit("logoff");
     },
     getUserInfo() {
       this.$axios.get("/api/user/userInfo").then(res => {
@@ -79,12 +87,22 @@ export default {
 
 
 <style scoped>
+.mine {
+  height: 100%;
+}
+.content {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .m-button {
   left: 50%;
   transform: translateX(-50%);
 }
 
 .user-head {
+  margin: 10px 0;
   display: flex;
   flex-direction: column;
   align-items: center;

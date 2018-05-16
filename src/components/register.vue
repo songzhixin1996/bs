@@ -123,6 +123,9 @@ export default {
 </script>
 
 <style scoped>
+.content {
+  margin-top: 5px;
+}
 .d1 {
   margin-top: 15px;
   text-align: center;

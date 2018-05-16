@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper" :style="{padding:showHeader?'40px 0 26px':'0 0 26px'}" >
+  <div id="wrapper" :style="{padding:showHeader?'40px 0 55px':'0 0 55px'}" >
     <m-header v-show="showHeader" title="交通事故处理查询系统" fixed  >
     </m-header>
     <router-view></router-view>
@@ -49,6 +49,7 @@ export default {
     window.onresize = () => {
       this.clientHeight = document.body.clientHeight;
     };
+    this.getSelected;
   }
 };
 </script>
@@ -56,7 +57,8 @@ export default {
 #wrapper {
   height: 100%;
   box-sizing: border-box;
-  /* overflow: auto; */
+  overflow: auto;
+  /* float: left; */
 }
 </style>
 

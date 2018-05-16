@@ -5,15 +5,17 @@
         <m-button icon="back" >返回</m-button>
       </router-link>
     </m-header> 
-    <m-loadmore :top-method="loadTop" @top-status-change="handleTopChange" ref="loadmore" class="loadmore">    
-      <m-cell v-for="item in reports" :key="item.id" :title="item.number"  is-link :to="'/'+userInfo.username+'/reportDetail?number='+item.number" >
-      </m-cell>  
+    <m-loadmore :top-method="loadTop" @top-status-change="handleTopChange" ref="loadmore" class="loadmore" >   
+      <div v-if="!noResults"> 
+        <m-cell v-for="item in reports" :key="item.id" :title="item.number"  is-link :to="'/'+userInfo.username+'/reportDetail?number='+item.number" >
+        </m-cell>  
+      </div>
+      <div v-else class="blank">空空如也~</div>
       <div slot="top" class="mint-loadmore-top">
         <span v-show="topStatus !== 'loading'" :class="{ 'rotate': topStatus === 'drop' }">↓</span>
         <span v-show="topStatus === 'loading'">Loading...</span>
       </div>
     </m-loadmore>
-    <!-- <m-cell  is-link :to="'/'+username+'/reportDetail'" ></m-cell>  -->
   </div>
 
 </template>
@@ -22,7 +24,8 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      topStatus: ""
+      topStatus: "",
+      noResults: true
     };
   },
   computed: {
@@ -67,6 +70,10 @@ export default {
   height: 100%;
 }
 .content {
+  height: 100%;
+}
+.blank {
+  text-align: center;
   height: 100%;
 }
 .loadmore {

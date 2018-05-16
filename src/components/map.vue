@@ -29,12 +29,13 @@ export default {
           map.panTo(r.point);
           console.log("您的位置：" + r.point.lng + "," + r.point.lat);
         } else {
-          // alert("failed" + this.getStatus());
-          console.log("failed" + this.getStatus());
+          console.log("failed " + this.getStatus());
         }
       },
       { enableHighAccuracy: true }
     );
+    var search = new BMap.LocalSearch();
+    search.search("武汉");
   }
 };
 </script>

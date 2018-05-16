@@ -49,7 +49,9 @@ export default {
     window.onresize = () => {
       this.clientHeight = document.body.clientHeight;
     };
-    this.getSelected;
+    if(this.getSelected==='map'){
+      this.showHeader = false;
+    }
   }
 };
 </script>

@@ -1,9 +1,8 @@
 <template>
 <div id="query">
   <m-field label='事故编号'  placeholder="请输入事故编号" v-model="number"></m-field>
-  <m-button class="m-button" type='primary' @click="query">确定</m-button>
-  <h5>事故信息</h5>
-  <m-field   type='textarea' rows="9" readonly v-model="info"></m-field></div>
+  <m-button class="m-button" type='primary'  @click="query">确定</m-button>
+</div>
 </template>
 
 <script>
@@ -29,20 +28,18 @@ export default {
         Indicator.open();
         this.$axios
           .get("/api/user/query?number=" + this.number)
-          .then(res => {
+          .then(({ data }) => {
             Indicator.close();
-            let a = res.data[0];
-            if (res.data.length === 0) {
+            let report = data[0];
+            if (!report) {
               Toast({ message: "请输入正确编号", duration: 1000 });
             } else {
-              Toast({ message: "ok" });
-              this.info = `事故时间：${a.accidentDate.substr(0, 10)}
-事故地点：${a.accidentPlace}
-甲方姓名：${a.aName}
-甲方电话：${a.aPhone}
-乙方姓名：${a.bName}
-乙方电话：${a.bPhone}
-描述：${a.description}`;
+              let rep = { [report.number]: report };
+              this.$store.commit("setReports", rep);
+              this.$router.push({
+                name: "reportDetail",
+                query: { number: report.number }
+              });
             }
           })
           .catch(err => {

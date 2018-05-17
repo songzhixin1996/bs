@@ -46,6 +46,7 @@ export default {
             if (a.data.code === 1) {
               Toast({ message: "登陆成功" });
               this.$store.commit("login");
+              this.$store.commit("setReports", {});
               this.$router.replace("mine");
             } else if (a.data.code === 0) {
               Toast({ message: "用户名或密码不正确" });

@@ -7,7 +7,7 @@
     </m-header> 
     <m-loadmore :top-method="loadTop" @top-status-change="handleTopChange" ref="loadmore" class="loadmore" >   
       <div v-if="!noResults" class="list"> 
-        <m-cell v-for="item in reports" :key="item.id" :title="item.number"  is-link :to="{name:'reportsDetail',params:{uid:userInfo.username},query:{number:item.number}}" >
+        <m-cell v-for="item in reports" :key="item.id" :title="item.number"  is-link :to="{name:'reportDetail',query:{number:item.number}}" >
         </m-cell>  
       </div>
       <div v-else class="blank">空空如也~</div>
@@ -21,7 +21,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import {Indicator} from 'mint-ui'
+import { Indicator } from "mint-ui";
 export default {
   data() {
     return {
@@ -39,11 +39,11 @@ export default {
       this.topStatus = status;
     },
     getMyReports() {
-      Indicator.open()
+      Indicator.open();
       this.$axios
         .get("/api/user/getMyReports?username=" + this.userInfo.username)
         .then(res => {
-          Indicator.close()
+          Indicator.close();
           //res ==>   {data:[{}],...}  ||{data:[]}
           //将reports存入store里
           let allReports = {};
@@ -65,11 +65,11 @@ export default {
       // 加载更多数据
       this.getMyReports();
       this.$refs.loadmore.onTopLoaded(); //固定方法
-    },
+    }
   },
   created() {
-    if (Object.keys(this.reports).length===0) {
-      this.getMyReports()
+    if (Object.keys(this.reports).length === 0) {
+      this.getMyReports();
     }
   }
 };
@@ -87,9 +87,9 @@ export default {
   height: 100%;
   margin-top: 40px;
 }
-.list{
+.list {
   height: 100%;
-  margin-top: 40px
+  margin-top: 40px;
 }
 .loadmore {
   height: 100%;

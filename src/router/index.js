@@ -68,8 +68,8 @@ const router = new Router({
       component: MyReports
     },
     {
-      name: 'reportsDetail',
-      path: '/:uid/reportDetail',
+      name: 'reportDetail',
+      path: '/reportDetail',
       component: ReportDetail
     },
     {

@@ -26,11 +26,6 @@
 import { mapState } from "vuex";
 import { Toast, Indicator } from "mint-ui";
 export default {
-  data() {
-    return {
-      // username: this.userInfo.username
-    };
-  },
   computed: {
     ...mapState(["logined", "userInfo"])
   },
@@ -55,7 +50,7 @@ export default {
       });
     },
     clearInfo() {
-      this.$store.commit("setUserInfo", "");
+      this.$store.commit("setUserInfo", {});
       this.$store.commit("setReports", {});
       this.$store.commit("logoff");
     },

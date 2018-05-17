@@ -1,7 +1,10 @@
 <template>
   <div>
-    <m-header title="交通事故处理查询系统" fixed>
-        <router-link :to="{name:'myReports',params:{uid:userInfo.username}}" slot="left">
+    <m-header title="交通事故处理查询系统 "   >
+        <router-link v-if="userInfo.username" :to="{name:'myReports',params:{uid:userInfo.username}}" slot="left">
+          <m-button icon="back" >返回</m-button>
+        </router-link>
+        <router-link v-else :to="{name:'query'}" slot="left">
           <m-button icon="back" >返回</m-button>
         </router-link>
     </m-header>
@@ -27,9 +30,6 @@ h5 {
 <script>
 import { mapState } from "vuex";
 export default {
-  data() {
-    return {};
-  },
   computed: {
     ...mapState(["reports", "userInfo"]),
     item() {

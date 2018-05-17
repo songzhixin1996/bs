@@ -22,13 +22,7 @@ export default new Vuex.Store({
       state.logined = false
     },
     setUserInfo(state, payload) {
-      state.userInfo = {
-        name: payload.name,
-        username: payload.username,
-        age: payload.age,
-        motto: payload.motto,
-        email: payload.email
-      }
+      state.userInfo = payload
     },
     setReports(state, payload) {
       state.reports = payload

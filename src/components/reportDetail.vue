@@ -1,10 +1,10 @@
 <template>
   <div>
     <m-header title="交通事故处理查询系统 "   >
-        <router-link v-if="userInfo.username" :to="{name:'myReports',params:{uid:userInfo.username}}" slot="left">
+        <router-link v-if="userInfo.username" :to="{name:'myReports',params:{uid:userInfo.username}}" slot="left" replace>
           <m-button icon="back" >返回</m-button>
         </router-link>
-        <router-link v-else :to="{name:'query'}" slot="left">
+        <router-link v-else :to="{name:'query'}" slot="left" replace>
           <m-button icon="back" >返回</m-button>
         </router-link>
     </m-header>

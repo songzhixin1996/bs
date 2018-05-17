@@ -1,7 +1,7 @@
 <template>
   <div>
     <m-header title="交通事故处理查询系统" >
-      <router-link :to="{name:'mine'}" slot="left" replace="">
+      <router-link :to="{name:'mine'}" slot="left" replace>
         <m-button icon="back">返回</m-button>
       </router-link>
     </m-header>

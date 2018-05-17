@@ -60,12 +60,18 @@ const router = new Router({
     }, {
       name: 'set',
       path: '/:uid/set',
-      component: Set
+      component: Set,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       name: 'myReports',
       path: '/:uid/myReports',
-      component: MyReports
+      component: MyReports,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       name: 'reportDetail',
@@ -91,7 +97,22 @@ router.beforeEach((to, from, next) => {
   if (sel) {
     store.commit('changeSel', sel)
   }
-  next()
+  console.log(to)
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.state.logined) {
+      alert('未登录！')
+      next({
+        name: 'login',
+        replace: true
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // 确保一定要调用 next()
+  }
 })
 
 

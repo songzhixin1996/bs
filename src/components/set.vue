@@ -1,7 +1,7 @@
 <template>
   <div class="set"> 
     <m-header title="修改个人信息" fixed class="head">
-      <router-link :to="{name:'mine'}" slot="left">
+      <router-link :to="{name:'mine'}" slot="left" replace>
         <m-button icon="back">返回</m-button>
       </router-link>
     </m-header>

@@ -67,13 +67,12 @@ export default {
                 description: this.description,
                 username: this.username
               })
-              .then(a => {
+              .then(({ data }) => {
                 Indicator.close();
-                console.log("success:!!  " + a.data.affectedRows);
-                if (a.data.affectedRows) {
-                  // MessageBox.alert("操作成功");
-                  Toast({
-                    message: "操作成功"
+                if (data.code === 1) {
+                  MessageBox({
+                    title: "提交成功！",
+                    message: `报案号为：${data.msg}`
                   });
                   this.clear();
                 } else {

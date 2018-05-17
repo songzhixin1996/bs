@@ -105,8 +105,16 @@ router.post('/addReport', (req, res) => {
       console.log("error!!! " + JSON.stringify(err));
       res.send(err)
     }
-    if (result) {
-      jsonWrite(res, result);
+    if (result.affectedRows) {
+      res.send({
+        code: 1,
+        msg: number
+      })
+    } else {
+      res.send({
+        code: 0,
+        msg: result
+      })
     }
   })
 

@@ -1,6 +1,6 @@
 <template>
   <div class="mine">
-    <div v-if="logined" class="centent">
+    <div v-if="logined" class="logined">
       <div class="user-head">  
         <router-link class="user-img" :to="{name:'set',params:{uid:userInfo.username}}"> 
           <img src="../assets/bg2.png" width="80" height="80"> 
@@ -14,7 +14,7 @@
       <m-cell title="设置" is-link :to="'/'+userInfo.username+'/set'"></m-cell>
       <m-button class="m-button" type='danger' @click="handleLogout">退出登陆</m-button>
     </div>
-    <div v-else class="content">
+    <div v-else class="not-login">
       <!-- <m-cell  title="登陆/注册" is-link :to="{name:'login'}" ></m-cell> -->
       <m-button plain type='primary' @click="handleLogin">登陆/注册</m-button>
     </div>
@@ -90,11 +90,15 @@ export default {
 .mine {
   height: 100%;
 }
-.content {
+.logined {
   height: 100%;
+  overflow: auto;
+}
+.not-login {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 .m-button {
   left: 50%;

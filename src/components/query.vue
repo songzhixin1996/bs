@@ -5,7 +5,7 @@
 </div>
 </template>
 
-<script>
+<script >
 /* eslint-disable */
 import { MessageBox, Toast, Indicator } from "mint-ui";
 export default {
@@ -54,7 +54,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .m-button {
   position: relative;
   left: 50%;

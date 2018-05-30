@@ -1,12 +1,18 @@
 <template>
-<div>
-  <h5>事故信息</h5>
+<div class="rep">
+  <div class="head">
+    <div>事故信息</div>
+  </div>
   <m-field label="事故时间" type='date'  v-model="accidentDate"></m-field>
   <m-field label="事故地点"  placeholder="请输入地点" v-model="accidentPlace"></m-field>
-  <h5>甲方信息</h5>
+  <div class="head">
+    <div>甲方信息</div>
+  </div>
   <m-field label="甲方姓名"  placeholder="请输入甲方姓名" v-model="aName"></m-field>
   <m-field label="甲方电话"  type='number' placeholder="请输入甲方电话" v-model="aPhone"></m-field>
-  <h5>乙方信息</h5>
+  <div class="head">
+    <div>乙方信息</div>
+  </div>
   <m-field label="事故时间"  placeholder='请输入乙方姓名' v-model="bName"></m-field>
   <m-field label="事故地点"  type='number' placeholder="请输入乙方电话" v-model="bPhone"></m-field>
   <m-field label="描述"  type="textarea" rows="4" v-model="description" ></m-field>
@@ -98,11 +104,41 @@ export default {
 </script>
 
 <style scoped>
-/* div {
-  text-align: center;
-} */
+.rep{
+  height: 100%;
+  overflow: auto;;
+}
 .m-button {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 80px;
+}
+.head {
+  box-sizing: content-box;
+  text-align: center;
+  padding: 10px 0 0;
+  width: 100%;
+}
+.head div {
+  color: rgba(133, 134, 130, 0.664);
+  position: relative;
+}
+.head div::after,
+.head div::before {
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  background: rgba(179, 175, 175, 0.74);
+  content: "";
+  height: 1px;
+  width: 39%;
+}
+/*调整背景横线的左右距离*/
+.head div::before {
+  left: 0;
+}
+.head div:after {
+  right: 0;
 }
 </style>

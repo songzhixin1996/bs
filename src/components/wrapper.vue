@@ -49,7 +49,7 @@ export default {
     window.onresize = () => {
       this.clientHeight = document.body.clientHeight;
     };
-    if(this.getSelected==='map'){
+    if (this.getSelected === "map") {
       this.showHeader = false;
     }
   }
@@ -58,6 +58,7 @@ export default {
 <style scoped>
 #wrapper {
   height: 100%;
+  width: 100%;
   box-sizing: border-box;
   overflow: auto;
 }

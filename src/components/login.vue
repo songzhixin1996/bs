@@ -1,10 +1,6 @@
 <template>
   <div>
-    <m-header title="交通事故处理查询系统" >
-      <router-link to="mine" slot="left" replace>
-        <m-button icon="back" >返回</m-button>
-      </router-link>
-    </m-header>
+    <Header></Header>
     <div class="content">
       <m-field label="用户名" type='email' placeholder="请输入用户名或邮箱" v-model="username"></m-field>
       <m-field label="密码" placeholder="密码" type="password" v-model="password"></m-field>
@@ -21,12 +17,16 @@
 <script>
 /* eslint-disable */
 import { MessageBox, Toast, Indicator } from "mint-ui";
+import Header from "./header.vue";
 export default {
   data: function() {
     return {
       username: "",
       password: ""
     };
+  },
+  components: {
+    Header
   },
   methods: {
     handleLogin() {
@@ -65,7 +65,7 @@ export default {
 
 <style scoped>
 .content {
-  margin-top: 5px;
+  margin-top: 45px;
 }
 .d1 {
   margin-top: 15px;

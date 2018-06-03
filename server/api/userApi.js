@@ -97,7 +97,6 @@ router.post('/addUser', (req, res) => {
 //上传事故
 router.post('/addReport', (req, res) => {
   let number = utils.getNumber();
-  // console.log('NUMBER!!!! ' + utils.getNumber())
   sql = $sql.report.add;
   params = req.body;
   conn.query(sql, [params.accidentDate, params.accidentPlace, params.aName, params.aPhone, params.bName, params.bPhone, params.description, params.username, number], (err, result) => {

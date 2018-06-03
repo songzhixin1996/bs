@@ -104,9 +104,9 @@ export default {
 </script>
 
 <style scoped>
-.rep{
+.rep {
   height: 100%;
-  overflow: auto;;
+  overflow: auto;
 }
 .m-button {
   display: flex;
@@ -115,7 +115,6 @@ export default {
   height: 80px;
 }
 .head {
-  box-sizing: content-box;
   text-align: center;
   padding: 10px 0 0;
   width: 100%;
@@ -132,7 +131,7 @@ export default {
   background: rgba(179, 175, 175, 0.74);
   content: "";
   height: 1px;
-  width: 39%;
+  width: calc(50% - 2.5rem);
 }
 /*调整背景横线的左右距离*/
 .head div::before {

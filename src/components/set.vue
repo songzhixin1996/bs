@@ -1,10 +1,6 @@
 <template>
   <div class="set"> 
-    <m-header title="修改个人信息" fixed class="head">
-      <router-link :to="{name:'mine'}" slot="left" replace>
-        <m-button icon="back">返回</m-button>
-      </router-link>
-    </m-header>
+    <Header></Header>
     <div class="content">
       <m-cell title="姓名"  :value='temp.name' @click.native="setName"></m-cell>
       <m-cell title="用户名"  :value="userInfo.username"></m-cell>
@@ -34,6 +30,7 @@
 <script>
 import { MessageBox, Toast, Indicator } from "mint-ui";
 import { mapState } from "vuex";
+import Header from "./header";
 export default {
   data() {
     return {
@@ -50,6 +47,9 @@ export default {
   },
   computed: {
     ...mapState(["userInfo"])
+  },
+  components: {
+    Header
   },
   methods: {
     init() {

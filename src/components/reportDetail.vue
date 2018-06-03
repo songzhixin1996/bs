@@ -1,13 +1,6 @@
 <template>
   <div>
-    <m-header title="交通事故处理查询系统 "   >
-        <router-link v-if="userInfo.username" :to="{name:'myReports',params:{uid:userInfo.username}}" slot="left" replace>
-          <m-button icon="back" >返回</m-button>
-        </router-link>
-        <router-link v-else :to="{name:'query'}" slot="left" replace>
-          <m-button icon="back" >返回</m-button>
-        </router-link>
-    </m-header>
+    <Header></Header>
     <div class="content">
       <h5>事故信息</h5>
       <m-cell title="事故时间"   :value="item.accidentDate"></m-cell>
@@ -29,7 +22,16 @@ h5 {
 </style>
 <script>
 import { mapState } from "vuex";
+import Header from "./header";
 export default {
+  methods: {
+    back() {
+      this.$router.back();
+    }
+  },
+  components: {
+    Header
+  },
   computed: {
     ...mapState(["reports", "userInfo"]),
     item() {
@@ -40,6 +42,9 @@ export default {
     },
     number() {
       return this.$route.query.number;
+    },
+    fromQuery() {
+      return this.$route.query.fromQuery;
     }
   }
 };

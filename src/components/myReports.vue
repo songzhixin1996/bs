@@ -1,10 +1,6 @@
 <template>
   <div class="myReports"> 
-    <m-header title="我的报案记录" class="header" fixed>
-      <router-link :to="{name:'mine'}" slot="left">
-        <m-button icon="back" >返回</m-button>
-      </router-link>
-    </m-header> 
+    <Header></Header>
     <m-loadmore :top-method="loadTop" @top-status-change="handleTopChange" ref="loadmore" class="loadmore" >   
       <div v-if="!noResults" class="list"> 
         <m-cell v-for="item in reports" :key="item.id" :title="item.number"  is-link :to="{name:'reportDetail',query:{number:item.number}}" >
@@ -22,6 +18,7 @@
 <script>
 import { mapState } from "vuex";
 import { Indicator } from "mint-ui";
+import Header from "./header";
 export default {
   data() {
     return {
@@ -34,7 +31,13 @@ export default {
       return Object.keys(this.reports).length === 0;
     }
   },
+  components: {
+    Header
+  },
   methods: {
+    back() {
+      this.$router.back();
+    },
     handleTopChange(status) {
       this.topStatus = status;
     },

@@ -98,6 +98,7 @@ export default {
                       }
                       document.addEventListener("copy", handler, true);
                       document.execCommand("copy");
+                      Toast({ message: "复制成功！" });
                     }
                   });
                   this.clear();

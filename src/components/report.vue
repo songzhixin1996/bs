@@ -48,6 +48,12 @@ export default {
       return this.$store.state.userInfo.username;
     }
   },
+  mounted() {
+    document.addEventListener("paste", function(e) {
+      let num = e.clipboardData.getData("text");
+      document.activeElement.innerHtml = num;
+    });
+  },
   methods: {
     clear() {
       this.accidentDate = this.accidentPlace = this.aName = this.aPhone = this.bName = this.bPhone = this.description =
@@ -78,7 +84,21 @@ export default {
                 if (data.code === 1) {
                   MessageBox({
                     title: "提交成功！",
-                    message: `报案号为：${data.msg}`
+                    message: `报案号为：${data.msg}`,
+                    showCancelButton: true,
+                    // cancleButtonClass: "copy_btn",
+                    cancelButtonText: "复制"
+                  }).then(action => {
+                    if (action === "cancel") {
+                      //copy number
+                      function handler(event) {
+                        event.clipboardData.setData("text", data.msg);
+                        document.removeEventListener("copy", handler, true);
+                        event.preventDefault();
+                      }
+                      document.addEventListener("copy", handler, true);
+                      document.execCommand("copy");
+                    }
                   });
                   this.clear();
                 } else {

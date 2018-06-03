@@ -105,5 +105,5 @@ exports.createNotifierCallback = () => {
 
 exports.getNumber = () => {
   //length:5
-  return Number(Math.random().toString().substr(3, 7) + Date.now()).toString(32).substr(0, 5);
+  return Number(Math.random().toString().substr(3, 7) + Date.now()).toString(32).substr(0, 8);
 }

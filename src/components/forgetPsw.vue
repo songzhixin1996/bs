@@ -26,7 +26,8 @@ export default {
       msg: "发送",
       count: 60,
       disabled: false,
-      isVertifySucc: false
+      isVertifySucc: false,
+      isLoading: false
     };
   },
   methods: {
@@ -43,11 +44,11 @@ export default {
     sendEmail() {
       if (/^\w+@\w*\.\w+$/.test(this.email)) {
         if (this.isVertifySucc) {
-          Indicator.open();
+          this.isLoading = true;
           this.$axios
             .get("/api/user/sendEmail?email=" + this.email)
             .then(res => {
-              Indicator.close();
+              this.isLoading = false;
               if (res.data.code === 1) {
                 this.email = "";
                 //禁用发送按钮设置为60秒后才能点击
@@ -147,11 +148,25 @@ export default {
       document.removeEventListener("touchmove", onDragHandlerMouseMove);
       document.removeEventListener("touchend", onDragHandlerMouseUp);
     }
+  },
+  watch: {
+    isLoading: (newValue, oldValue) => {
+      if (newValue) {
+        Indicator.open();
+      } else {
+        Indicator.close();
+      }
+    }
   }
 };
 </script>
 
 <style scoped>
+.page {
+  height: 100%;
+  width: 100%;
+}
+
 .content {
   margin-top: 5px;
 }

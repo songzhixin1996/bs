@@ -34,7 +34,12 @@ export default {
   },
   computed: {
     ready() {
-      return this.username && this.email && this.psw && this.psw === this.rePsw;
+      return (
+        this.username &&
+        /^\w+@\w*\.\w+$/.test(this.email) &&
+        this.psw &&
+        this.psw === this.rePsw
+      );
     }
   },
   methods: {
@@ -115,7 +120,7 @@ export default {
           }
         });
       } else {
-        Toast({ message: "请输入正确！" });
+        Toast({ message: "格式不正确！" });
       }
     }
   }

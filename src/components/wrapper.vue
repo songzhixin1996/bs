@@ -2,7 +2,9 @@
   <div id="wrapper" :style="{padding:showHeader?'40px 0 55px':'0 0 55px'}" >
     <m-header v-show="showHeader" title="交通事故处理查询系统" fixed  >
     </m-header>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>     
+    </keep-alive>
     <tab :selected='getSelected' @changeSel=changeSel></tab>
   </div>
 </template>
